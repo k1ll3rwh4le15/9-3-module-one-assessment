@@ -3,6 +3,7 @@
 
   Keep in mind that your functions must still have and use a parameter for accepting all movies.
 */
+const movies = require("./movies");
 const exampleMovies = require("./movies");
 // Do not change the line above.
 
@@ -28,7 +29,13 @@ const exampleMovies = require("./movies");
       "James and the Giant Peach",
     ];
  */
-function getAllMovieTitles() {}
+function getAllMovieTitles(movies) {
+  const daMovies = [];
+  for (const movie of movies) {
+    daMovies.push(movie.title);
+  }
+  return daMovies
+}
 
 /**
  * getHighestMetascore()
@@ -41,7 +48,19 @@ function getAllMovieTitles() {}
  *  getHighestMetascore(movies);
  *  //> 96
  */
-function getHighestMetascore() {}
+function getHighestMetascore(movies) {
+  if (movies.length === 0) {
+    return 0;
+  }
+  let mostHighlyRated = Number(movies[0].metascore);;
+  for (const movie of movies) {
+    const metascore = Number(movie.metascore);
+    if (metascore > mostHighlyRated) {
+      mostHighlyRated = metascore;
+    }
+  }
+  return mostHighlyRated;
+}
 
 /**
  * getAverageIMDBRating()
@@ -54,8 +73,17 @@ function getHighestMetascore() {}
  *  getAverageIMDBRating(movies);
  *  //> 7.76
  */
-function getAverageIMDBRating() {}
+function getAverageIMDBRating(movies) {
+  if (movies.length === 0){
+  return 0;
+}
+let sum = 0;
+for (const movie of movies) {
+  sum = sum + Number(movie.imdbRating);
+}
 
+return sum / movies.length;
+}
 /**
  * countByRating()
  * -----------------------------
@@ -67,7 +95,18 @@ function getAverageIMDBRating() {}
  *  countByRating(movies);
  *  //> { G: 3, PG: 7 }
  */
-function countByRating() {}
+function countByRating(movies) {
+  const daMovieRates = {};
+  for (const movie of movies) {
+    const rated = movie.rated;
+    if (rated in daMovieRates){
+      daMovieRates[rated]++;
+    } else {
+      daMovieRates[rated] = 1;
+    }
+  }
+  return daMovieRates;
+}
 
 /**
  * findById()
@@ -83,7 +122,15 @@ function countByRating() {}
       // Toy Story 4
     };
  */
-function findById() {}
+function findById(movies, id) {
+  let searchResult = null;
+  for (const movie of movies) {
+    if (movie.imdbID === id) {
+      searchResult = movie;
+    }
+  }
+  return searchResult;
+}
 
 /**
  * filterByGenre()
@@ -105,7 +152,17 @@ function findById() {}
  *  filterByGenre(movies, "Horror")
  *  //> []
  */
-function filterByGenre() {}
+function filterByGenre(movies, genre) {
+  const movieGenres =[];
+  genre = genre.toLowerCase();
+  for (const movie of movies) {
+    const listOfGenres = movie.genre.toLowerCase();
+    if (listOfGenres.includes(genre)) {
+      movieGenres.push(movie);
+    }
+  }
+  return movieGenres
+}
 
 /**
  * getAllMoviesReleasedAtOrBeforeYear()
@@ -129,7 +186,14 @@ function filterByGenre() {}
       }
     ];
  */
-function getAllMoviesReleasedAtOrBeforeYear() {}
+function getAllMoviesReleasedAtOrBeforeYear(movies, year) {
+  let moviesBeforeYr = []
+  for (let movie of movies) {
+    if(movie.released.slice(7) <= year){ 
+      moviesBeforeYr.push(movie)
+  }
+} return moviesBeforeYr
+}
 
 /**
  * getBiggestBoxOfficeMovie()
@@ -142,7 +206,20 @@ function getAllMoviesReleasedAtOrBeforeYear() {}
  *  getBiggestBoxOfficeMovie(movies);
  *  //> "Incredibles 2"
  */
-function getBiggestBoxOfficeMovie() {}
+function getBiggestBoxOfficeMovie(movies) {
+  let quantity = 0
+  let motionPicture = ""
+  if (movies.length === 0) {
+    return null
+  }
+  for (let movie of movies) {
+    let num = Number(movie.boxOffice.slice(1).replaceAll(`,`, ``))
+    if (num > quantity) {
+      amount = num
+      motionPicture = movie.motionPicture
+    }
+  } return motionPicture
+}
 
 // Do not change anything below this line.
 module.exports = {
